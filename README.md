@@ -7,8 +7,8 @@ no tienen soporte para sistemas legados o no compatibles.
 ## Requisitos
 
 - `curl`: Para realizar solicitudes HTTP.
-- `bash 4 o superior, incluso con versiones anteriores (ocupa ligeras modificaciones)`
 - `cron`: Para automatizar la ejecucion del script
+- `bash 4 o superior, incluso con versiones anteriores (ocupa ligeras modificaciones)`
 
 ## Instalación
 
