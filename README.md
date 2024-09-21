@@ -1,60 +1,58 @@
 # AutoIP
 
-AutoIP es un script de Bash que actualiza automáticamente la dirección IP pública en el servicio de DNS 
-dinámico No-IP. Nace como una alternativa a los Dynamic Update Client (DUC) o Dynamic DNS Clients que 
-no tienen soporte para sistemas legados o no compatibles.
+AutoIP is a Bash script that automatically updates the public IP address in the No-IP 
+dynamic DNS service. It was created as an alternative to Dynamic Update Clients (DUC) 
+or Dynamic DNS Clients that don't support legacy or incompatible systems.
 
-## Requisitos
+## Requirements
 
-- `curl`: Para realizar solicitudes HTTP.
-- `cron`: Para automatizar la ejecucion del script
-- `bash 4 o superior`: Para ejecutar el script, si tiene una version anterior como bash 3 aplica el parche.
+- `curl`: To make HTTP requests.
+- `cron`: To automate the script execution.
+- `bash 4 or higher`: To run the script. If you have an older version, such as bash 3, apply the patch.
 
-## Instalación
+## Installation
 
-1. Clona este repositorio
-2. Entra a la directorio del repositorio
-3. Ejecuta ./setup.sh install con permisos de administrador
-4. Modifica el archivo de configuracion con tus credenciales `/usr/local/etc/autoip/config.toml`
+1. Clone this repository.
+2. Navigate to the repository directory.
+3. Run `./setup.sh install` with administrator privileges.
+4. Edit the configuration file with your credentials: `/usr/local/etc/autoip/config.toml`.
 
    ```toml
-   noip.hostname = "tu_hostname"
-   noip.user = "tu_usuario"
-   noip.password = "tu_contraseña"
-   noip.user_agent = "AutoIP script/debian-12.6 usuario1@test.com"
+   noip.hostname = "your_hostname"
+   noip.user = "your_username"
+   noip.password = "your_password"
+   noip.user_agent = "AutoIP script/debian-12.6 user1@test.com"
    ```
 
-Nota: si tu version de bash es inferior a la 4, necesitas aplicar el parche autoip-bash3.patch a autoip.sh 
-antes de ejecutar el paso 3.
+Note: If your version of bash is lower than 4, you need to apply the `autoip-bash3.patch`
+to `autoip.sh` before executing step 3.
 
 ```
 patch autoip.sh < autoip-bash3.patch
-
 ```
 
-## Uso
+## Usage
 
-El script se ejecutara de forma automatica cada 5 minutos usando una tarea cron.
+The script will automatically run every 5 minutes using a cron job.
 
-1. Ejecuta el script:
+1. Run the script:
 
    ```bash
    ./autoip.sh
    ```
 
-2. El script obtendrá la IP pública desde varios servidores y la actualizará en No-IP si ha cambiado.
+2. The script will retrieve the public IP from several servers and update it on No-IP if it has changed.
 
-## Funcionalidades
+## Features
 
-- **Colores y logs:** Utiliza colores para resaltar los mensajes en la consola y registra eventos en un archivo de log.
-- **Validación de IP:** Asegura que la IP obtenida sea válida antes de actualizar en No-IP.
-- **Manejo de errores:** Registra diferentes tipos de mensajes (INFO, WARNING, ERROR) según la respuesta del servidor No-IP.
+- **Colors and logs:** Uses colors to highlight messages in the console and logs events to a log file.
+- **IP validation:** Ensures the retrieved IP is valid before updating it on No-IP.
+- **Error handling:** Logs different types of messages (INFO, WARNING, ERROR) based on the response from the No-IP server.
 
-## Contribuciones
+## Contributions
 
-Las contribuciones son bienvenidas. Si deseas mejorar el script, siéntete libre de abrir un issue o un pull request.
+Contributions are welcome. If you want to improve the script, feel free to open an issue or a pull request.
 
-## Licencia
+## License
 
-Este proyecto utiliza la Licencia GPLv3. 
-Tambien se incluyen binarios con licencia MIT del proyecto [tomlq](https://github.com/cryptaliagy/tomlq)
+This project is licensed under the GPLv3. It also includes MIT-licensed binaries from the [tomlq](https://github.com/cryptaliagy/tomlq) project.
