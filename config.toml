@@ -1,5 +1,5 @@
 [noip]
 hostname = "aaa-test.mydomain.net"
-usuario = "noipaccount@mydomain.com"
+user = "noipaccount@mydomain.com"
 password = "p@$$w0rd"
 user_agent = "Company autoip/debian-12.5 sysadmin@mydomain.com"
