@@ -1,0 +1,91 @@
+--- autoip.sh	2024-09-21 11:55:18.318920993 -0600
++++ autoip.sh.bak	2024-09-21 11:56:58.661574532 -0600
+@@ -60,7 +60,7 @@
+   [[ "$ip" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]
+ }
+ 
+-# Function to update the IP in NO-IP
++# Function to update the IP in No-IP
+ update_noip() {
+   local current_ip_file="/tmp/autoip"
+ 
+@@ -74,36 +74,49 @@
+   if validate_ip "$current_ip"; then
+     response=$(curl -s -X GET "http://dynupdate.no-ip.com/nic/update?hostname=${hostname}&myip=${current_ip}" -u "${user}:${password}" -H "User-Agent: ${user_agent}")
+ 
+-    # List of possible responses with their log levels and associated messages
+-    declare -A responses=(
+-      ["good"]="INFO: DNS hostname updated successfully: ${response}"
+-      ["nochg"]="INFO: The IP is current, no update performed: ${response}"
+-      ["nohost"]="ERROR: The hostname does not exist under the specified account."
+-      ["badauth"]="ERROR: Invalid username and password combination."
+-      ["badagent"]="ERROR: Client disabled. No further updates should be made without user intervention."
+-      ["!donator"]="ERROR: Attempted to use a feature not available to the user."
+-      ["abuse"]="ERROR: Username blocked due to abuse. Updates halted."
+-      ["911"]="ERROR: Fatal error at No-IP. Retry no sooner than 30 minutes."
+-    )
+-
+-    # Flags to find a match
+-    found=false
+-
+-    # Search the list of possible responses
+-    for key in "${!responses[@]}"; do
+-      if echo "$response" | grep -q "^$key"; then
+-        # Extract level and message from the array value
+-        IFS=':' read -r level message <<< "${responses[$key]}"
+-        log_message "$level" "$message"
+-        found=true
+-        break
+-      fi
+-    done
+-
+-    # Message for unexpected responses
+-    if [[ "$found" == false ]]; then
+-      log_message "WARNING" "Unexpected response from the server: ${response}"
+-    fi
++    # Use case to handle different server responses
++    case "$response" in
++      good*)
++        level="INFO"
++        message="DNS hostname updated successfully: ${response}"
++        ;;
++      nochg*)
++        level="INFO"
++        message="The IP is current, no update performed: ${response}"
++        ;;
++      nohost*)
++        level="ERROR"
++        message="The hostname does not exist under the specified account."
++        ;;
++      badauth*)
++        level="ERROR"
++        message="Invalid username and password combination."
++        ;;
++      badagent*)
++        level="ERROR"
++        message="Client disabled. No further updates should be made without user intervention."
++        ;;
++      !donator*)
++        level="ERROR"
++        message="Attempted to use a feature not available to the user."
++        ;;
++      abuse*)
++        level="ERROR"
++        message="Username blocked due to abuse. Updates halted."
++        ;;
++      911*)
++        level="ERROR"
++        message="Fatal error at No-IP. Retry no sooner than 30 minutes."
++        ;;
++      *)
++        level="WARNING"
++        message="Unexpected response from the server: ${response}"
++        ;;
++    esac
++
++    # Log the message
++    log_message "$level" "$message"
++
+   else
+     log_message "WARNING" "The IP ${current_ip} is invalid."
+     return 1

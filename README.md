@@ -8,7 +8,7 @@ no tienen soporte para sistemas legados o no compatibles.
 
 - `curl`: Para realizar solicitudes HTTP.
 - `cron`: Para automatizar la ejecucion del script
-- `bash 4 o superior, incluso con versiones anteriores (ocupa ligeras modificaciones)`
+- `bash 4 o superior`: Para ejecutar el script, si tiene una version anterior como bash 3 aplica el parche.
 
 ## Instalación
 
@@ -19,10 +19,18 @@ no tienen soporte para sistemas legados o no compatibles.
 
    ```toml
    noip.hostname = "tu_hostname"
-   noip.usuario = "tu_usuario"
+   noip.user = "tu_usuario"
    noip.password = "tu_contraseña"
    noip.user_agent = "AutoIP script/debian-12.6 usuario1@test.com"
    ```
+
+Nota: si tu version de bash es inferior a la 4, necesitas aplicar el parche autoip-bash3.patch a autoip.sh 
+antes de ejecutar el paso 3.
+
+```
+patch autoip.sh < autoip-bash3.patch
+
+```
 
 ## Uso
 
