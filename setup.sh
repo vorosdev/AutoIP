@@ -51,6 +51,7 @@ install_dependencies_with_cargo() {
                 source "$HOME/.cargo/env" # Load the cargo environment after installation
                 echo -e "${plus} Installing dependencies with cargo..."
                 cargo install tomlq --locked
+                sudo ln -s  $HOME/.cargo/bin/tq /usr/local/bin/tq
                 ;;
             n|N)
                 echo -e "${warning} Dependencies not installed. Try with legacy installation."
