@@ -113,11 +113,12 @@ update_noip() {
 # Function to read configuration from a TOML file
 read_configuration() {
   local config_file="$1"
+  local tq_dir="/usr/local/bin/tq"
 
-  hostname=$(tq -f "$config_file" noip.hostname)
-  user=$(tq -f "$config_file" noip.user)
-  password=$(tq -f "$config_file" noip.password)
-  user_agent=$(tq -f "$config_file" noip.user_agent)
+  hostname=$($tq_dir -f "$config_file" noip.hostname)
+  user=$($tq_dir -f "$config_file" noip.user)
+  password=$($tq_dir -f "$config_file" noip.password)
+  user_agent=$($tq_dir -f "$config_file" noip.user_agent)
 
   log_message "INFO" "Configuration loaded from ${config_file}."
 }
